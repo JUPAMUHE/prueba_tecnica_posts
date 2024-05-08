@@ -9,6 +9,7 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
     </head>
     </head>
@@ -102,6 +103,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
        <script>
             $(document).ready(function(){
@@ -120,16 +122,15 @@
                         },
                         success: function(response) {
                             if(response.success==0){
-                                alert('¡Ya lo ha elegido como favorito!');
-
+                                toastr.warning('¡Ya lo ha elegido como favorito!', 'Aviso');
                             }else if (response.success) {
-                                alert('Post guardado como favorito');
+                                toastr.success('¡Post guardado como favorito!', 'Correcto', { positionClass: 'toast-bottom-right' });
                             } else {
-                                alert('Error al guardar el post');
+                                toastr.error('Error al guardar el post', 'Error');
                             }
                         },
                         error: function() {
-                            alert('Error de conexión');
+                            toastr.error('Error de conexión', 'Error');
                         }
                     });
                 });
@@ -163,7 +164,7 @@
                             
                         },
                         error: function() {
-                            alert('Error de conexión');
+                            toastr.error('Error de conexión', 'Error');
                         }
                     });
                 });
@@ -175,7 +176,7 @@
                 var name = $('#name').val();
                 var author = $('#author').val();
                 if(name == '' || author == ''){
-                    alert('Debe rellenar todos los datos');
+                    toastr.warning('¡Debe rellenar todos los datos!', 'Aviso');
                     return false;
                 }
 
@@ -192,12 +193,14 @@
                             loadItemList();
                             $('#addElementModal').modal('hide');
                             $('#add-item-form')[0].reset();
+                            toastr.success('¡Post guardado!', 'Correcto');
+
                         } else {
-                            alert('Error al guardar el elemento');
+                            toastr.error('Error al guardar el elemento', 'Error');
                         }
                     },
                     error: function() {
-                        alert('Error de conexión');
+                        toastr.error('Error al guardar el elemento', 'Error');
                     }
                 });
             });
@@ -213,7 +216,7 @@
 
                     },
                     error: function() {
-                        alert('Error al cargar el listado de elementos');
+                        toastr.error('Error al guardar el elemento', 'Error');
                     }
                 });
             }
