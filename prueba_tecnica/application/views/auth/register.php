@@ -17,11 +17,27 @@
         }
         .register-container {
             max-width: 600px;
-            padding: 20px;
+            padding: 50px;
             border: 1px solid #ccc;
-            border-radius: 5px;
+            border-radius: 20px;
             background-color: #fff;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.2);  
+        }
+
+        .register-container::after {
+            content: '';
+            position: fixed;
+            top: 10vh;
+            right: 40vh;
+            width: 100%;
+            height: 100%;
+            background-color: #2874A6; /* Color crema */
+            transform: translateY(-50%) rotate(145deg); /* Gira el pseudo-elemento */
+            z-index: -1; /* Coloca el pseudo-elemento detrás del contenido */
+        }
+        .btn-border{
+            border-radius: 20px;
+            box-shadow: 0 20px 15px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
@@ -29,7 +45,7 @@
     <div class="register-container">
         <h2 class="mb-4">Registrarse</h2>
         <?php if(isset($error)): ?>
-            <div class="alert alert-danger"><?= $error ?></div>
+            <div class="alert alert-danger"><?= html_escape($error) ?></div>
         <?php endif; ?>
         <form action="<?= site_url('auth/add_user'); ?>" method="post">
             <div class="form-group">
@@ -48,7 +64,7 @@
                 <label for="password_confirm">Confirmar Contraseña:</label>
                 <input type="password" class="form-control" id="password_confirm" name="password_confirm" required>
             </div>
-            <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-user-plus" aria-hidden="true"></i> Registrarse</button>
+            <button type="submit" class="btn btn-primary btn-block btn-border"><i class="fa fa-user-plus" aria-hidden="true"></i> Registrarse</button>
         </form>
         <div class="mt-3 text-center">
             <p><a href="<?= site_url('auth/login'); ?>">Volver a Login</a></p>

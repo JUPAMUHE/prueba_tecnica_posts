@@ -34,8 +34,8 @@ class Auth extends CI_Controller {
 
     private function process_login() {
 
-        $username = $this->input->post('username');
-        $password = $this->input->post('password');
+        $username = $this->input->post('username',TRUE);
+        $password = $this->input->post('password',TRUE);
 
         // Verificar si las credenciales son válidas
         $user = $this->user_model->get_user($username);
