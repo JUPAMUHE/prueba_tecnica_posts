@@ -29,10 +29,10 @@
         <div class="container mt-4">
             <div class="row">
                 <div class="col-sm-6">
-                    <h2>Listado de Elementos</h2>
+                    <h2>Listado</h2>
                 </div>
                 <div class="col-sm-6 text-right">
-                    <button id="open-modal" class="btn btn-success" data-toggle="modal" data-target="#addElementModal"><i class="fa fa-plus" aria-hidden="true"></i> Crear Elemento</button>
+                    <button id="open-modal" class="btn btn-success" data-toggle="modal" data-target="#addElementModal"><i class="fa fa-plus" aria-hidden="true"></i> Crear Post</button>
                 </div>
             </div>
         </div>
@@ -42,12 +42,12 @@
             </div>
         </div>
 
-        <!-- Modal para agregar elemento -->
+        <!-- Modal para agregar Post -->
         <div class="modal fade" id="addElementModal" tabindex="-1" role="dialog" aria-labelledby="addElementModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="addElementModalLabel">Agregar Elemento</h5>
+                        <h5 class="modal-title" id="addElementModalLabel">Agregar Post</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -116,10 +116,11 @@
                             post_id: post_id
                         },
                         success: function(response) {
-                            if(response.success==0){
-                                toastr.warning('¡Ya lo ha elegido como bookmark!', 'Aviso');
-                            }else if (response.success) {
+                            if(response.success==1){
                                 toastr.success('¡Post guardado como bookmark!', 'Correcto', { positionClass: 'toast-bottom-right' });
+                                loadItemList();
+                            }else if (response.success==2) {
+                                toastr.warning('¡Post desmarcado como bookmark!', 'Correcto', { positionClass: 'toast-bottom-right' });
                                 loadItemList()
                             } else {
                                 toastr.error('Error al guardar el post', 'Error');
@@ -134,6 +135,7 @@
                 //Para ver la informacion de bookmark
                 $(document).on('click', '.bookmark-btn-ver', function(){
                     var post_id = $(this).data('post-id');
+                    var post_name = $(this).data('post-name');
                     $.ajax({
                         url: '<?= site_url('items/view_bookmark'); ?>',
                         type: 'POST',
@@ -143,7 +145,7 @@
                         },
                         success: function(response) {
                             if(response.data != false && response.data != 'false'){
-                                var userInfo = '<p class="mb-2">Lista de usuarios que han marcado como bookmark el post número '+ post_id +':</p><table class="table table-bordered">';
+                                var userInfo = '<p class="mb-2">Lista de usuarios que han marcado como bookmark el post <strong>'+ post_name +'</strong>:</p><table class="table table-bordered">';
     
                                 userInfo += '<thead><tr><th>Usuario</th><th>Fecha de Creación</th></tr></thead><tbody>';
                                 
@@ -155,7 +157,7 @@
                                 
                                 $('#postUserInfo').html(userInfo);
                             }else{
-                                $('#postUserInfo').html('<p class="text-muted">El post número '+ post_id +' ningun usuario lo ha selecionado como bookmark.</p>');
+                                $('#postUserInfo').html('<p class="text-muted">El post <strong>'+ post_name +'</strong> ningun usuario lo ha selecionado como bookmark.</p>');
                             }
                             
                         },
@@ -217,11 +219,11 @@
                             toastr.success('¡Post guardado con exito!', 'Correcto');
 
                         } else {
-                            toastr.error('Error al guardar el elemento', 'Error');
+                            toastr.error('Error al guardar el Post', 'Error');
                         }
                     },
                     error: function() {
-                        toastr.error('Error al guardar el elemento', 'Error');
+                        toastr.error('Error al guardar el Post', 'Error');
                     }
                 });
             });
@@ -251,7 +253,7 @@
 
                     },
                     error: function() {
-                        toastr.error('Error al guardar el elemento', 'Error');
+                        toastr.error('Error al guardar el Post', 'Error');
                     }
                 });
             }

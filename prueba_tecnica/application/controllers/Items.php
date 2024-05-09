@@ -51,10 +51,10 @@ class Items extends CI_Controller {
         // Guardar el post como favorito en la tabla post_bookmark
         $result = $this->item_model->save_bookmark($post_id, $user_id);
 
-        if ($result) {
-            echo json_encode(array('success' => true));
-        } else if($result==0){
-            echo json_encode(array('success' => 0));
+        if ($result==1) {
+            echo json_encode(array('success' => 1));
+        } else if($result==2){
+            echo json_encode(array('success' => 2));
         }else {
             echo json_encode(array('success' => false, 'message' => 'Error al guardar el post como favorito'));
         }

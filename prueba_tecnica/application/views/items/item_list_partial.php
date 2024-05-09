@@ -19,7 +19,7 @@
                                 <button class="btn <?php echo $post['post_bookmark'] == 1 ? 'btn-warning' : 'btn-primary'; ?> bookmark-btn" data-post-id="<?php echo html_escape($post['id']); ?>">
                                     <i class="fas fa-bookmark"></i> Bookmark
                                 </button>
-                                <button class="btn btn-success bookmark-btn-ver" data-post-id="<?php echo html_escape($post['id']); ?>" data-toggle="modal" data-target="#postUserModal"><i class="fa fa-eye" aria-hidden="true"></i> Ver</button>
+                                <button class="btn btn-success bookmark-btn-ver" data-post-id="<?php echo html_escape($post['id']); ?>" data-post-name="<?php echo html_escape($post['nombre']); ?>" data-toggle="modal" data-target="#postUserModal"><i class="fa fa-eye" aria-hidden="true"></i> Ver</button>
                                 <button class="btn btn-danger post-btn-eliminar" data-post-id="<?php echo html_escape($post['id']); ?>" ><i class="fa fa-trash" aria-hidden="true"></i> Eliminar</button>
                             </td>
                         </tr>

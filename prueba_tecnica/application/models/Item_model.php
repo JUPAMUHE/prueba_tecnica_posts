@@ -35,15 +35,36 @@ class Item_model extends CI_Model {
 
         //Validar si ese usuario logueado anteriormente ha guardado ese post
         if($query->num_rows() > 0){
-            return 0;
+            $estado=0;
+
+            if($query->result_array()[0]['estado']==1){
+                $data = array(
+                    'estado' => 0,
+                    'fecha_creacion' => date('Y-m-d H:i:s')
+                );
+                $estado=2;
+            }else{
+                $data = array(
+                    'estado' => 1,
+                    'fecha_creacion' => date('Y-m-d H:i:s')
+                );
+                $estado=1;
+            }
+           
+            $this->db->where('post_id', $post_id);
+            $this->db->where('user_id', $user_id);
+            $this->db->update('post_bookmark', $data);
+
+            return $estado;
         }else{
             $data = array(
                 'user_id' => $user_id,
                 'post_id' => $post_id,
+                'estado' => 1,
                 'fecha_creacion' => date('Y-m-d H:i:s')
             );
-    
-            return $this->db->insert('post_bookmark', $data);
+            $this->db->insert('post_bookmark', $data);
+            return 1;
         }
        
     }
@@ -56,6 +77,7 @@ class Item_model extends CI_Model {
         $this->db->join('post', 'post.id = post_bookmark.post_id');
         $this->db->where('post_bookmark.post_id', $post_id);
         $this->db->where('post.activo =', 1);
+        $this->db->where('post_bookmark.estado =', 1);
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
@@ -73,6 +95,8 @@ class Item_model extends CI_Model {
         $this->db->join('post', 'post.id = post_bookmark.post_id');
         $this->db->where('users.id =', $user_id);
         $this->db->where('post.activo =', 1);
+        $this->db->where('post_bookmark.estado =', 1);
+
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
