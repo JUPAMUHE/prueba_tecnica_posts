@@ -77,7 +77,7 @@ class Auth extends CI_Controller {
             );
     
             $this->user_model->register_user($data_user);
-            $data['success'] = 'Usuario creado';
+            $data['success'] = 'Usuario creado con exito';
             $this->load->view('auth/login', $data);
         }
         

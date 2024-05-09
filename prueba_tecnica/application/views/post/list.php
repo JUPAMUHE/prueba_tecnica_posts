@@ -4,14 +4,10 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Listado de Posts</title>
-        <head>
-        <title>Dashboard</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-
-    </head>
     </head>
     <body>
 
@@ -28,7 +24,6 @@
                     </li>
                 </ul>
             </div>
-
         </nav>
 
         <div class="container mt-4">
@@ -77,12 +72,12 @@
             </div>
         </div>
 
-        <!-- Modal para mostrar la información del usuario-favoritos -->
+        <!-- Modal para mostrar la información del usuario-bookmark -->
         <div class="modal fade" id="postUserModal" tabindex="-1" role="dialog" aria-labelledby="postUserModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="postUserModalLabel">Usuarios - Favoritos</h5>
+                        <h5 class="modal-title" id="postUserModalLabel">Usuarios - Bookmark</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -122,9 +117,10 @@
                         },
                         success: function(response) {
                             if(response.success==0){
-                                toastr.warning('¡Ya lo ha elegido como favorito!', 'Aviso');
+                                toastr.warning('¡Ya lo ha elegido como bookmark!', 'Aviso');
                             }else if (response.success) {
-                                toastr.success('¡Post guardado como favorito!', 'Correcto', { positionClass: 'toast-bottom-right' });
+                                toastr.success('¡Post guardado como bookmark!', 'Correcto', { positionClass: 'toast-bottom-right' });
+                                loadItemList()
                             } else {
                                 toastr.error('Error al guardar el post', 'Error');
                             }
@@ -147,7 +143,7 @@
                         },
                         success: function(response) {
                             if(response.data != false && response.data != 'false'){
-                                var userInfo = '<p class="mb-2">Lista de usuarios que han seleccionado el post número '+ post_id +':</p><table class="table table-bordered">';
+                                var userInfo = '<p class="mb-2">Lista de usuarios que han marcado como bookmark el post número '+ post_id +':</p><table class="table table-bordered">';
     
                                 userInfo += '<thead><tr><th>Usuario</th><th>Fecha de Creación</th></tr></thead><tbody>';
                                 
@@ -159,9 +155,34 @@
                                 
                                 $('#postUserInfo').html(userInfo);
                             }else{
-                                $('#postUserInfo').html('<p class="text-muted">Ningun usuario lo ha selecionado como favorito.</p>');
+                                $('#postUserInfo').html('<p class="text-muted">El post número '+ post_id +' ningun usuario lo ha selecionado como bookmark.</p>');
                             }
                             
+                        },
+                        error: function() {
+                            toastr.error('Error de conexión', 'Error');
+                        }
+                    });
+                });
+
+                  //Para eliminar post
+                  $(document).on('click', '.post-btn-eliminar', function(){
+                    var post_id = $(this).data('post-id');
+                    $.ajax({
+                        url: '<?= site_url('items/eliminar_post'); ?>',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {
+                            post_id: post_id
+                        },
+                        success: function(response) {
+                            console.log(response);
+                            if (response.data) {
+                                toastr.warning('¡Post Eliminado!', 'Correcto');
+                                loadItemList()
+                            } else {
+                                toastr.error('Error al eliminar el post', 'Error');
+                            }
                         },
                         error: function() {
                             toastr.error('Error de conexión', 'Error');
@@ -193,7 +214,7 @@
                             loadItemList();
                             $('#addElementModal').modal('hide');
                             $('#add-item-form')[0].reset();
-                            toastr.success('¡Post guardado!', 'Correcto');
+                            toastr.success('¡Post guardado con exito!', 'Correcto');
 
                         } else {
                             toastr.error('Error al guardar el elemento', 'Error');
@@ -212,7 +233,21 @@
                     dataType: 'html',
                     success: function(response) {
                         $('#item-list').html(response);
-                        $('#postTable').DataTable();
+                        $('#postTable').DataTable({
+                            "order": [[2, "desc"]],
+                            "language": {
+                                "lengthMenu": "Mostrar _MENU_ registros por página",
+                                "zeroRecords": "No se encontraron resultados",
+                                "info": "Mostrando página _PAGE_ de _PAGES_",
+                                "infoEmpty": "No hay registros disponibles",
+                                "infoFiltered": "(filtrado de _MAX_ registros totales)",
+                                "search": "Buscar:",
+                                "paginate": {
+                                    "next": "Siguiente",
+                                    "previous": "Anterior"
+                                }
+                            }
+                        });
 
                     },
                     error: function() {
