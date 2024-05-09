@@ -23,7 +23,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item d-flex">
-                        <p class="nav-link mr-3"><i class="fa fa-user-circle" aria-hidden="true"></i> <?php echo $username;?></p>
+                        <p class="nav-link mr-3"><i class="fa fa-user-circle" aria-hidden="true"></i> <?php echo $this->session->userdata('user_data')['username'];?></p>
                         <a class="nav-link" href="<?= site_url('auth/logout'); ?>"><i class="fa fa-sign-out" aria-hidden="true"></i> Cerrar Sesión</a>
                     </li>
                 </ul>
@@ -77,12 +77,12 @@
             </div>
         </div>
 
-        <!-- Modal para mostrar la información del usuario y del post -->
+        <!-- Modal para mostrar la información del usuario-favoritos -->
         <div class="modal fade" id="postUserModal" tabindex="-1" role="dialog" aria-labelledby="postUserModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="postUserModalLabel">Usuarios Favoritos</h5>
+                        <h5 class="modal-title" id="postUserModalLabel">Usuarios - Favoritos</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -147,7 +147,7 @@
                         },
                         success: function(response) {
                             if(response.data != false && response.data != 'false'){
-                                var userInfo = '<p class="mb-2">Lista de Usuarios/Favoritos:</p><table class="table table-bordered">';
+                                var userInfo = '<p class="mb-2">Lista de usuarios que han seleccionado el post número '+ post_id +':</p><table class="table table-bordered">';
     
                                 userInfo += '<thead><tr><th>Usuario</th><th>Fecha de Creación</th></tr></thead><tbody>';
                                 

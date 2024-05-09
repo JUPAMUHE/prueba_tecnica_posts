@@ -31,9 +31,9 @@
             right: 40vh;
             width: 100%;
             height: 100%;
-            background-color: #2874A6; /* Color crema */
-            transform: translateY(-50%) rotate(145deg); /* Gira el pseudo-elemento */
-            z-index: -1; /* Coloca el pseudo-elemento detrás del contenido */
+            background-color: #2874A6;
+            transform: translateY(-50%) rotate(145deg); 
+            z-index: -1; 
         }
         .btn-border{
             border-radius: 20px;

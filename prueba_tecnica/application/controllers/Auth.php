@@ -12,28 +12,25 @@ class Auth extends CI_Controller {
     }
 
     public function login() {
-       // Si ya está autenticado, redirige a la página de inicio
+        // Si ya está autenticado, redirige a la página de inicio
         if ($this->session->userdata('logged_in')) {
-            $data['username'] = $this->session->userdata('user_data')['username'];
-            $this->load->view('post/list',$data);
-            return false;
+            $this->load->view('post/list');
+            return;
         }
-
+    
         // Si se envió el formulario, procesa los datos
         if ($this->input->post()) {
             $this->process_login();
-            return false;
-        } else {
-            // De lo contrario, carga la vista de inicio de sesión
-            $this->session->unset_userdata('logged_in');
-            $this->session->unset_userdata('user_data');
-            $this->load->view('auth/login');
-            return false;
+            return;
         }
+    
+        // De lo contrario, carga la vista de inicio de sesión
+        $this->session->unset_userdata('logged_in');
+        $this->session->unset_userdata('user_data');
+        $this->load->view('auth/login');
     }
 
     private function process_login() {
-
         $username = $this->input->post('username',TRUE);
         $password = $this->input->post('password',TRUE);
 
@@ -86,7 +83,6 @@ class Auth extends CI_Controller {
         
     }
     
-
     public function logout() {  
         //Se quitan las variables del usuario asignadas a la session
         $this->session->unset_userdata('logged_in');

@@ -16,14 +16,14 @@
             justify-content: center;
         }
         .login-container {
-            position: relative; /* Añade posición relativa */
+            position: relative;
             max-width: 400px;
             padding: 40px;
             border-radius: 20px;
             background-color: #fff;
             box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.2);
             text-align: center;
-            overflow: hidden; /* Para ocultar el exceso del pseudo-elemento */
+            overflow: hidden; 
         }
 
         .login-container::after {
@@ -33,9 +33,9 @@
             left: 55vh;
             width: 100%;
             height: 100%;
-            background-color: #2874A6; /* Color crema */
-            transform: translateY(-50%) rotate(45deg); /* Gira el pseudo-elemento */
-            z-index: -1; /* Coloca el pseudo-elemento detrás del contenido */
+            background-color: #2874A6;
+            transform: translateY(-50%) rotate(45deg); 
+            z-index: -1;
         }
 
         .login-container h2{
@@ -43,7 +43,7 @@
         }
         .login-container img{
             width: 180px;
-            display: block; /* Para centrar la imagen */
+            display: block;
             margin: 0 auto;
         }
         .btn-border{
@@ -64,12 +64,9 @@
         <?php endif; ?>
         <form action="<?php echo site_url('auth/login'); ?>" method="post">
             <div class="form-group">
-
-                <!-- <label for="username">Nombre de Usuario:</label> -->
                 <input type="text" class="form-control" id="username" name="username" placeholder="username" required>
             </div>
             <div class="form-group">
-                <!-- <label for="password">Contraseña:</label> -->
                 <input type="password" class="form-control" id="password" name="password" placeholder="password" required>
             </div>
             <button type="submit" class="btn btn-primary btn-block btn-border">
